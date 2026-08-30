@@ -1,36 +1,48 @@
-const stats = [
-  { value: "100,000+", label: "ISO downloads in a week" },
-  { value: "1,000+", label: "community plugins built in Quattro's first week" },
-  { value: "$10M", label: "Omacom Foundation funding" },
-];
+"use client";
+
+import { motion, useReducedMotion } from "motion/react";
+import { landingContent, modeVoice } from "../lib/landing-content";
 
 export function TrustStrip() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <section className="border-y border-terminal-black/40 bg-storm/40">
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-8 sm:py-16">
-        <div className="grid grid-cols-1 gap-8 text-center sm:grid-cols-3">
-          {stats.map((stat) => (
-            <div key={stat.label}>
+        {modeVoice.malleable.statsEyebrow && (
+          <p className="text-center text-xs font-semibold tracking-[0.3em] text-terminal-blue">
+            {modeVoice.malleable.statsEyebrow}
+          </p>
+        )}
+        <div className="mt-6 grid grid-cols-1 gap-8 text-center sm:grid-cols-3">
+          {landingContent.stats.map((stat, index) => (
+            <motion.div
+              key={stat.label}
+              initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{
+                duration: 0.5,
+                delay: index * 0.08,
+                ease: [0.33, 1, 0.68, 1],
+              }}
+            >
               <p className="text-3xl font-semibold text-turquoise sm:text-4xl">
                 {stat.value}
               </p>
               <p className="mt-1 text-sm text-terminal-white/60">
                 {stat.label}
               </p>
-            </div>
+            </motion.div>
           ))}
         </div>
 
         <blockquote className="mx-auto mt-10 max-w-2xl text-center">
           <p className="text-balance text-lg leading-relaxed text-terminal-white sm:text-xl">
-            &ldquo;It&rsquo;s time to dream big. Omarchy Quattro has given
-            people a chance to experience what the malleable computer of the
-            future looks like, and they like it (a lot!) &hellip; we&rsquo;re
-            going to make the prophecy of The Year of Linux on the Desktop
-            come true.&rdquo;
+            &ldquo;{landingContent.quote.text}&rdquo;
           </p>
           <footer className="mt-3 text-sm text-terminal-white/50">
-            DHH, on the Omacom Foundation launch
+            {landingContent.quote.attribution}
           </footer>
         </blockquote>
       </div>
