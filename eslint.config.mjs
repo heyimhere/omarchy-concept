@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vendored runtime assets (minified third-party build output, not our
+    // source) — see AsciiMark.tsx.
+    "public/wte/**",
   ]),
 ]);
 

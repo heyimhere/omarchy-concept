@@ -1,26 +1,87 @@
 @import "tailwindcss";
 
+@theme {
+  /* Tokyo-Night-derived palette */
+  --color-night: #1a1b26; /* background-night */
+  --color-storm: #24283b; /* background-storm */
+  --color-ink: #000000;
+  --color-green: #9ece6a; /* the ASCII screensaver's own color */
+  --color-terminal-black: #414868;
+  --color-terminal-blue: #7aa2f7;
+  --color-terminal-cyan: #7dcfff;
+  --color-terminal-white: #c0caf5;
+  --color-turquoise: #b4f9f8;
+  --color-paper: #ffffff;
+
+  --font-mono: var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace,
+    monospace;
+
+  --ease-omarchy: cubic-bezier(0.33, 1, 0.68, 1);
+
+  --shadow-panel: 0 0 0 1px rgb(0 0 0 / 0.3), 0 0.3em 2em -1.2em rgb(0 0 0 / 0.1),
+    0 0.6em 2.4em -1.6em rgb(0 0 0 / 0.2), 0 0.9em 2.8em -2em rgb(0 0 0 / 0.3),
+    0 1.2em 3.2em -2.4em rgb(0 0 0 / 0.4), 0 1.5em 3.6em -2.8em rgb(0 0 0 / 0.5);
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: var(--color-night);
+  --foreground: var(--color-terminal-white);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-night);
+  color: var(--color-terminal-white);
+  font-family: var(--font-mono);
+}
+
+/* ---- Ascii screensaver mark ----
+   Hidden up front so the plain-text mark never flashes before the canvas
+   takes over; if the effect never starts (script blocked, wasm failed) this
+   reveal fires on its own. AsciiMark.tsx cancels it once a canvas is really
+   live. */
+.ascii-mark pre {
+  animation: wte-fallback 0s 2s forwards;
+  visibility: hidden;
+}
+
+@keyframes wte-fallback {
+  to {
+    visibility: visible;
+  }
+}
+
+.ascii-mark.is-live pre {
+  animation: none;
+}
+
+.ascii-mark__canvas {
+  display: block;
+  inset: 0;
+  overflow: hidden;
+  position: absolute;
+}
+
+.ascii-mark__canvas canvas {
+  display: block;
+  mix-blend-mode: screen;
+  position: absolute;
+  transform-origin: 0 0;
+}
+
+.ascii-mark.is-static pre {
+  visibility: visible;
+}
+
+.ascii-mark.is-static .ascii-mark__canvas {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ascii-mark pre {
+    visibility: visible;
+  }
+
+  .ascii-mark__canvas {
+    display: none;
+  }
 }
