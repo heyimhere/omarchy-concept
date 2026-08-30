@@ -1,34 +1,35 @@
-import Image from "next/image";
+import type { ReactNode } from "react";
 import { AsciiMark } from "./AsciiMark";
+import { WallpaperReveal } from "./WallpaperReveal";
 import { navLinks } from "../lib/nav-links";
+import { landingContent, modeVoice } from "../lib/landing-content";
 
 // The Quattro wallpaper sits full-bleed behind the hero, dimmed by the
 // overlays below so the ASCII mark and copy stay readable on top of it.
-export function Hero() {
+export function Hero({ modeSwitcher }: { modeSwitcher?: ReactNode }) {
   return (
     <section className="relative overflow-hidden px-4 pb-16 pt-12 text-center sm:px-8 sm:pt-20">
-      <Image
-        src="/omarchy-quattro.png"
+      <WallpaperReveal
+        src="/omarchy-quattro.jpg"
         alt=""
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover object-[center_38%]"
+        imageClassName="object-cover object-[center_38%]"
       />
       <div className="absolute inset-0 bg-night/55" />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-night/35 to-night" />
 
       <div className="relative mx-auto max-w-6xl">
+        {modeSwitcher && <div className="mb-8 sm:mb-10">{modeSwitcher}</div>}
+
         <div className="mb-10 sm:mb-14">
           <AsciiMark />
         </div>
 
         <p className="text-xs font-semibold tracking-[0.3em] text-terminal-blue sm:text-sm">
-          WELCOME TO THE MALLEABLE MACHINE
+          {modeVoice.malleable.heroEyebrow}
         </p>
 
         <h1 className="mx-auto mt-4 max-w-3xl text-3xl font-semibold leading-tight text-terminal-white sm:text-5xl">
-          Beautiful, Fun &amp; Opinionated Linux by{" "}
+          {landingContent.hero.titleBeforeDhh}{" "}
           <a
             href="https://dhh.dk"
             target="_blank"
@@ -40,9 +41,7 @@ export function Hero() {
         </h1>
 
         <p className="mx-auto mt-6 max-w-2xl text-balance text-base leading-relaxed text-terminal-white/70 sm:text-lg">
-          Omarchy is an omakase Linux distribution built on Arch, Hyprland, and
-          Quickshell, because a beautiful system is a motivating system, and
-          productivity has always been downstream from motivation.
+          {landingContent.hero.description}
         </p>
 
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">

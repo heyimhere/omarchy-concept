@@ -4,10 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { navLinks, primaryHeaderLinks } from "../lib/nav-links";
 
-// Every link from the real site's 14-link nav still exists (LinkGroups
-// carries the rest), but the bar itself only holds the handful people
-// reach for on every visit: read the docs, browse plugins, read the
-// source, ask a question. Confident hierarchy over a wall of icons.
+// Keep frequent destinations in the header and the complete navigation
+// in LinkGroups so the primary bar stays easy to scan.
 export function NavHeader() {
   const [open, setOpen] = useState(false);
 
